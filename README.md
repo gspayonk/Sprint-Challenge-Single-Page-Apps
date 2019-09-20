@@ -27,7 +27,8 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ]  Explain benefit(s) using `client-side routing`?
 
-> Answer:
+
+> Answer: Less data to be processed so routing is faster by running it in the browser. We also get smooth transitions that are easier to implement.
 
 ## Project Set Up
 
