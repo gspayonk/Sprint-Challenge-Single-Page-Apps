@@ -5,8 +5,8 @@ import LocationCard from './LocationCard';
 
 export default function LocationsList() {
 
-    const [locations, setLocations] = useState ('https://rickandmortyapi.com/api/location/');
-    cons [locationsList, setList] = useState(null);
+    const [locations, setLocations] = useState ([]);
+    const [locationsList] = useState(null);
 
 useEffect(() => {
     // TODO: Add API Request here - must run in `useEffect`
@@ -14,7 +14,7 @@ useEffect(() => {
     // const getLocations = () => {
 
     axios
-        .get(`${locations}`)
+        .get('https://rickandmortyapi.com/api/location/')
 
         .then(response => {
             setLocations(response.data);
@@ -29,7 +29,7 @@ useEffect(() => {
 
 return (
     <section className="location-list">
-    {locationList ? ( locationList.results.map(location => <LocationCard data={location} />)):
+    {locationsList ? ( locationsList.results.map(location => <LocationCard data={location} />)):
     ( <h1>Fetching</h1>)}
     </section>
 );

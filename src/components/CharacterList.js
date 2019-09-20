@@ -1,38 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import CharacterCard from './CharacterCard';
+import SearchForm from './SearchForm';
 
 
-export default function CharacterList() {
+
+export default function CharacterList(props) {
   // TODO: Add useState to track data from useEffect
-  const [currentChar, setChar] = useState ('https://rickandmortyapi.com/api/character/');
+  // const [currentChar, setChar] = useState ('https://rickandmortyapi.com/api/character/');
+  const characterId = props.match.params.id
+  const [address, setAddress] = useState(`https://rickandmortyapi.com/api/character/${characterId?characterId:''}`)
+  const [charsSet, setCharSet] = useState ([])
 
-  const [charsSet, setCharSet] = useState(null);
-
+  function search(str){
+    setAddress(`https://rickandmortyapi.com/api/character/?name=${encodeURIComponent(str)}`)
+  }
   useEffect(() => {
     // TODO: Add API Request here - must run in `useEffect`
     //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
 
       axios
-        .get(`${currentChar}`)
+        .get(address)
 
         .then(response => {
-          console.log(response);
-          setCharSet(response.data);
+          setCharSet(response.data.results || [response.data]);
+          console.log(response.data.results);
         })
 
         .catch(error => {
           console.error('Server Error', error);
-        });
+        })
 
-  }, [currentChar]);
+  }, [address]);
 
   return (
+    <>
+    <SearchForm search={search}/>
     <div className="character-list">
-      {charsSet ?(charsSet.results.map(character => 
-      <CharacterCard data={character}
-      />)) : ( <h1>Fetching</h1>
-      )}
+      {charsSet.map(character => <CharacterCard key={character.id} {...character}
+      />)}
     </div>
+    </>
   );
 };
